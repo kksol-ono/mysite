@@ -1,0 +1,32 @@
+#StackName: CUSTOMERNAME-Env-RESOURCENAME
+#StackName: iamrole-ec2management
+#
+# 2020/12/24 / tkkosak@amazon.com
+#
+Resources:
+    IAMRoleEC2Management:
+        Type: AWS::IAM::Role
+        Properties: 
+            AssumeRolePolicyDocument:
+                Version: "2012-10-17"
+                Statement:
+                    -
+                        Effect: "Allow"
+                        Principal:
+                            Service:
+                                - "ec2.amazonaws.com"
+                        Action:
+                            - "sts:AssumeRole"
+            ManagedPolicyArns: 
+                - arn:aws:iam::aws:policy/CloudWatchAgentAdminPolicy
+                - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+            RoleName: "IAMRole-EC2Management"
+    RootInstanceProfile:
+        Type: "AWS::IAM::InstanceProfile"
+        Properties:
+            InstanceProfileName: "IAMRole-EC2Management"
+            Path: "/"
+            Roles:
+                -
+                    Ref: "IAMRoleEC2Management"
+                    
