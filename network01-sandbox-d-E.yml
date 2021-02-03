@@ -1,0 +1,338 @@
+#StackName: CUSTOMERNAME-Env-RESOURCENAME
+#StackName: network01-sandbox-d-E
+#
+# 2020/12/24 / tkkosak@amazon.com
+#
+Resources:
+  vpcsandboxde:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 172.29.136.0/23
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: vpc-sandbox-d-e
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+
+  subnetpublic1a0:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1a"
+      CidrBlock: 172.29.136.0/27
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: subnet-public-1a-0
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetpublic1c32:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1c"
+      CidrBlock: 172.29.136.32/27
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: subnet-public-1c-32
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetprotect1a0:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1a"
+      CidrBlock: 172.29.137.0/25
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-protect-1a-0
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetprotect1c128:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1c"
+      CidrBlock: 172.29.137.128/25
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-protect-1c-128
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetprivate1a64:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1a"
+      CidrBlock: 172.29.136.64/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-private-1a-64
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetprivate1c96:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1c"
+      CidrBlock: 172.29.136.96/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-private-1c-96
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetprivate1d128:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1d"
+      CidrBlock: 172.29.136.128/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-private-1d-128
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetcommon1a160:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1a"
+      CidrBlock: 172.29.136.160/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-common-1a-160
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetcommon1c192:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1c"
+      CidrBlock: 172.29.136.192/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-common-1c-192
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  subnetcommon1d224:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: "ap-northeast-1d"
+      CidrBlock: 172.29.136.224/27
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: subnet-common-1d-224
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      VpcId: !Ref vpcsandboxde
+
+  attsandboxde:
+    Type: 'AWS::EC2::TransitGatewayAttachment'
+    Properties: 
+      SubnetIds: 
+        - !Ref subnetcommon1a160
+        - !Ref subnetcommon1c192
+        - !Ref subnetcommon1d224
+      Tags:
+        - Key: Name
+          Value: att-sandbox-d-e
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+      TransitGatewayId: 'tgw-05c01e2dfff18b2e1'
+      VpcId: !Ref vpcsandboxde
+
+  igwsandboxde:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        - Key: Name
+          Value: igw-sandbox-d-e
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+
+  igwattachsandboxde:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      InternetGatewayId: !Ref igwsandboxde
+      VpcId: !Ref vpcsandboxde
+
+  ngweip1forngw:
+    Type: "AWS::EC2::EIP"
+
+  ngweip2forngw:
+    Type: "AWS::EC2::EIP"
+
+  ngwsandboxde1a:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId: !GetAtt ngweip1forngw.AllocationId
+      SubnetId: !Ref subnetpublic1a0
+      Tags:
+        - Key: Name
+          Value: ngw-sandbox-d-e-1a
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+
+  ngwsandboxde1c:
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId: !GetAtt ngweip2forngw.AllocationId
+      SubnetId: !Ref subnetpublic1c32
+      Tags:
+        - Key: Name
+          Value: ngw-sandbox-d-e-1c
+        - Key: Owner
+          Value: EBR-C340
+        - Key: System
+          Value: Common
+
+Outputs:
+  vpcsandboxde:
+    Description: Sandbox / Development / External
+    Value: !Ref vpcsandboxde
+    Export:
+      Name: vpcsandboxde
+
+  subnetpublic1a0	:
+    Description: Subnet for Sandbox / Development / External(172.29.136.0/27 Public-a-0)
+    Value: !Ref subnetpublic1a0	
+    Export:
+      Name: subnetpublic1a0	
+
+  subnetpublic1c32:
+    Description: Subnet for Sandbox / Development / External(172.29.136.32/27 Public-c-32)
+    Value: !Ref subnetpublic1c32
+    Export:
+      Name: subnetpublic1c32
+
+  subnetprivate1a64:
+    Description: Subnet for Sandbox / Development / External(172.29.136.64/27 Private-a-64)
+    Value: !Ref subnetprivate1a64
+    Export:
+      Name: subnetprivate1a64
+
+  subnetprivate1c96:
+    Description: Subnet for Sandbox / Development / External(172.29.136.96/27 Private-c-96)
+    Value: !Ref subnetprivate1c96
+    Export:
+      Name: subnetprivate1c96
+
+  subnetprivate1d128:
+    Description: Subnet for Sandbox / Development / External(172.29.136.128/27 Private-d-128)
+    Value: !Ref subnetprivate1d128
+    Export:
+      Name: subnetprivate1d128
+
+  subnetcommon1a160:
+    Description: Subnet for Sandbox / Development / External(172.29.136.160/27 Common-a-160)
+    Value: !Ref subnetcommon1a160
+    Export:
+      Name: subnetcommon1a160
+
+  subnetcommon1c192:
+    Description: Subnet for Sandbox / Development / External(172.29.136.192/27 Common-c-192)
+    Value: !Ref subnetcommon1c192
+    Export:
+      Name: subnetcommon1c192
+
+  subnetcommon1d224:
+    Description: Subnet for Sandbox / Development / External(172.29.136.224/27 Common-d-224)
+    Value: !Ref subnetcommon1d224
+    Export:
+      Name: subnetcommon1d224
+
+  subnetprotect1a0:
+    Description: Subnet for Sandbox / Development / External(172.29.137.0/25 Protect-a-0)
+    Value: !Ref subnetprotect1a0
+    Export:
+      Name: subnetprotect1a0
+
+  subnetprotect1c128:
+    Description: Subnet for Sandbox / Development / External(172.29.137.128/25 Protect-c-128)
+    Value: !Ref subnetprotect1c128
+    Export:
+      Name: subnetprotect1c128
+
+  attsandboxde:
+    Description: TGW Attachment for Sandbox / Development / External
+    Value: !Ref attsandboxde
+    Export:
+      Name: attsandboxde
+
+  igwsandboxde:
+    Description: Internet Gateway for Sandbox / Development / External
+    Value: !Ref igwsandboxde
+    Export:
+      Name: igwsandboxde
+      
+  ngweip1forngw:
+    Description: ElasticIP1 for NGW / Sandbox / Development / External
+    Value: !Ref ngweip1forngw
+    Export:
+      Name: ngweip1forngw
+
+  ngwsandboxde1a:
+    Description: NATGateway@AZA for Sandbox / Development / External
+    Value: !Ref ngwsandboxde1a
+    Export:
+      Name: ngwsandboxde1a
+
+  ngweip2forngw:
+    Description: ElasticIP2 for NGW / Sandbox / Development / External 
+    Value: !Ref ngweip2forngw
+    Export:
+      Name: ngweip2forngw
+
+  ngwsandboxde1c:
+    Description: NATGateway@AZC for Sandbox / Development / External
+    Value: !Ref ngwsandboxde1c
+    Export:
+      Name: ngwsandboxde1c
