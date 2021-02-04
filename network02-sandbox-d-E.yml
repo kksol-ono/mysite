@@ -23,6 +23,20 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !ImportValue igwsandboxde
 
+  routeforpublic02:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref rtbforpublic
+      DestinationCidrBlock: 172.29.128.160/27
+      TransitGatewayId: tgw-05c01e2dfff18b2e1
+
+  routeforpublic03:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref rtbforpublic
+      DestinationCidrBlock: 172.29.128.192/27
+      TransitGatewayId: tgw-05c01e2dfff18b2e1
+
   subnetassocforpublic1a:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
     Properties:
